@@ -6,6 +6,8 @@ source config.sh
 CONFIGS='config files'
 GRUB_CONFIG='/etc/default/grub'
 
+source cli.sh
+
 main() {
     add_repositories
     install_packets
