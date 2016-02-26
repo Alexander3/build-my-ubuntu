@@ -10,6 +10,7 @@ source cli.sh
 
 main() {
     add_repositories
+    add_manual_repositories
     install_packets
     grub
 
@@ -27,6 +28,11 @@ add_repositories() {
     done
 }
 
+add_manual_repositories() {
+    for link in ${manual_installed_repositories[*]}; do
+        suRun 'curl -s "$link" | sudo bash'
+    done
+}
 install_packets() {
     suRun apt-get -y update
     suRun apt-get -y upgrade
@@ -44,7 +50,7 @@ grub() {
 configuration() {
     # Git
     Run cp "$CONFIGS/.git*" ~/
-    Run echo "$CONFIGS/.bashrc" >> ~/.bashrc
+    Run 'echo "$CONFIGS/.bashrc" >> ~/.bashrc'
     Run git config --global user.email "$GIT_EMAIL"
     Run git config --global user.name "$GIT_NAME"
 

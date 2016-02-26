@@ -10,6 +10,10 @@ repositories=(
     ppa:nilarimogard/webupd8
 )
 
+manual_installed_repositories=(
+    https://packagecloud.io/install/repositories/gyazo/gyazo-for-linux/script.deb.sh
+)
+
 packet_list=(
     synaptic
     git
@@ -24,6 +28,7 @@ packet_list=(
     gimp
     nautilus-image-converter
     nautilus-columns
+    gyazo
 )
 
 remove_list=(
