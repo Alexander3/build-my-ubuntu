@@ -1,0 +1,32 @@
+# dotfile: ~/.gitconfig
+# vim: ft=gitconfig
+
+[alias]
+    ci = commit
+    co = checkout
+    br = branch
+    st = status
+    cp = cherry-pick
+    subup = submodule update --init --recursive
+    unstage = reset HEAD --
+    uncommit = reset --soft HEAD^ --
+    changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
+    hl = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    ll = "!f() { git --no-pager hl -$((`tput lines`/2)) $@; }; f"
+    sdiff = "diff --staged"
+[annotate]
+    date = relative
+[diff]
+    ignore-space-change = true
+    ignore-all-space = true
+[color]
+    ui = true
+[merge]
+    summary = true
+    verbosity = 1
+[push]
+    default = simple
+[rebase]
+    autosquash = true
+[core]
+	autocrlf = input
