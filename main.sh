@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
 set -o nounset
 set -o errexit
+cd "$(dirname "$0/")"
 
-source config.sh
 CONFIGS='config files'
 GRUB_CONFIG='/etc/default/grub'
 
 source cli.sh
 
 main() {
+    source config.sh
+
     add_repositories
     add_manual_repositories
     install_packets

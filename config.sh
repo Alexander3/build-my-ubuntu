@@ -5,6 +5,10 @@ sshDir='/media/D/ssh'           # Path to your ssh keys
 GIT_NAME='Your name'
 GIT_EMAIL='yourmail@example.com'
 
+# it accepts oracle-java8-installer licence, if you don't need it remove this line
+Run 'echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections'
+
+
 repositories=(
     ppa:webupd8team/java        # for oracle-java8-installer
     ppa:nilarimogard/webupd8    # for nautilus-columns
