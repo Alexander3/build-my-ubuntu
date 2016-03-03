@@ -5,6 +5,9 @@ cd "$(dirname "$0/")"
 
 CONFIGS='config files'
 GRUB_CONFIG='/etc/default/grub'
+NEEDED_PACKAGES=(
+    curl
+)
 
 source cli.sh
 
@@ -12,6 +15,7 @@ main() {
     source config.sh
 
     add_repositories
+    install_needed_packages
     add_manual_repositories
     install_packets
     grub
@@ -28,6 +32,10 @@ add_repositories() {
     for ppa in ${repositories[*]}; do
         suRun add-apt-repository "$ppa" -y
     done
+}
+
+install_needed_packages() {
+    suRun apt-get -y install ${NEEDED_PACKAGES[*]}
 }
 
 add_manual_repositories() {
