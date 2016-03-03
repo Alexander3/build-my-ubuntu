@@ -14,21 +14,21 @@ source cli.sh
 main() {
     source config.sh
 
-    add_repositories
+    add_ppa_repositories
     install_needed_packages
-    add_manual_repositories
-    install_packets
-    grub
+    add_repositories_with_curl
+    hanlde_apt_packages
+    disable_quiet_splash_in_grub
 
     # without sudo
     make_symlinks_to_mounted_devices
-    configuration
+    configure_system
 
 #    check_tools_version_and_install_newest
 #    create_swap_file
 }
 
-add_repositories() {
+add_ppa_repositories() {
     for ppa in ${repositories[*]}; do
         suRun add-apt-repository "$ppa" -y
     done
@@ -38,26 +38,26 @@ install_needed_packages() {
     suRun apt-get -y install ${NEEDED_PACKAGES[*]}
 }
 
-add_manual_repositories() {
+add_repositories_with_curl() {
     for link in ${manual_installed_repositories[*]}; do
         suRun "curl -s $link | sudo bash"
     done
 }
-install_packets() {
+hanlde_apt_packages() {
     suRun apt-get -y update
     suRun apt-get -y upgrade
     suRun apt-get -y purge ${remove_list[*]}
-    suRun apt-get -y install ${packet_list[*]}
+    suRun apt-get -y install ${install_list[*]}
     suRun apt-get -y autoremove --purge
     suRun apt-get -y autoclean
 }
 
-grub() {
+disable_quiet_splash_in_grub() {
     suRun sed -i.$(date +%d.%m.%y).bac 's/quiet splash//g' "$GRUB_CONFIG"
     suRun update-grub
 }
 
-configuration() {
+configure_system() {
     # Git
     Run cp "$CONFIGS/.git*" ~/
     Run "echo \"$CONFIGS/.bashrc\" >> ~/.bashrc"
