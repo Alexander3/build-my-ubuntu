@@ -40,7 +40,7 @@ install_needed_packages() {
 
 add_manual_repositories() {
     for link in ${manual_installed_repositories[*]}; do
-        suRun 'curl -s "$link" | sudo bash'
+        suRun "curl -s $link | sudo bash"
     done
 }
 install_packets() {
@@ -60,7 +60,7 @@ grub() {
 configuration() {
     # Git
     Run cp "$CONFIGS/.git*" ~/
-    Run 'echo "$CONFIGS/.bashrc" >> ~/.bashrc'
+    Run "echo \"$CONFIGS/.bashrc\" >> ~/.bashrc"
     Run git config --global user.email "$GIT_EMAIL"
     Run git config --global user.name "$GIT_NAME"
 
