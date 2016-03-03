@@ -5,7 +5,7 @@ sshDir='/media/D/ssh'           # Path to your ssh keys
 GIT_NAME='Your name'
 GIT_EMAIL='yourmail@example.com'
 
-# it accepts oracle-java8-installer licence, if you don't need it remove this line
+# accepts oracle-java8-installer licence, if you don't need it remove this line
 Run 'echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections'
 
 
@@ -36,5 +36,5 @@ install_list=(
 )
 
 remove_list=(
-    unity-webapps-common    # Amazon-somthing by default in Unity desktop
+    unity-webapps-common    # Amazon-something by default in Unity desktop
 )
