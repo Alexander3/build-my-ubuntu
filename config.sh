@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-MountPoint='/media'
-sshDir='D/ssh'
+MountPoint='/media'             # Folder where you mounted other drives during instalation
+sshDir='/media/D/ssh'           # Path to your ssh keys
 
 GIT_NAME='Your name'
 GIT_EMAIL='yourmail@example.com'
 
 repositories=(
-    ppa:webupd8team/java
-    ppa:nilarimogard/webupd8
+    ppa:webupd8team/java        # for oracle-java8-installer
+    ppa:nilarimogard/webupd8    # for nautilus-columns
 )
 
 manual_installed_repositories=(
@@ -32,5 +32,5 @@ packet_list=(
 )
 
 remove_list=(
-    unity-webapps-common
+    unity-webapps-common    # Amazon-somthing by default in Unity desktop
 )
