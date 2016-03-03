@@ -17,7 +17,7 @@ main() {
     add_ppa_repositories
     install_needed_packages
     add_repositories_with_curl
-    hanlde_apt_packages
+    handle_apt_packages
     disable_quiet_splash_in_grub
 
     # without sudo
@@ -43,7 +43,7 @@ add_repositories_with_curl() {
         suRun "curl -s $link | sudo bash"
     done
 }
-hanlde_apt_packages() {
+handle_apt_packages() {
     suRun apt-get -y update
     suRun apt-get -y upgrade
     suRun apt-get -y purge ${remove_list[*]}
