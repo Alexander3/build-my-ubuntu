@@ -69,7 +69,7 @@ configure_system() {
     Run chmod 0600 ~/.ssh/*.ppk
     Run chmod 0600 ~/.ssh/id_rsa
 
-    # TODO modify fstab to mount as your uid and gid
+    # TODO modify fstab to mount with your uid and gid
 }
 
 make_symlinks_to_mounted_devices() {
