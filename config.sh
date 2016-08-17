@@ -26,19 +26,22 @@ install_list=(
     oracle-java8-installer
     tree
     terminator
+    htop
+    vim
+    sublime-text-installer
+    # Python developer
     python3-pip
     ipython3
-    htop
     virtualenvwrapper
+    # Webdeveloper tools
+    npm
+    nodejs-legacy
     ruby-sass
+    # Other
+    gyazo
     gimp
     nautilus-image-converter
     nautilus-columns
-    gyazo
-    vim
-    sublime-text-installer
-    npm
-    nodejs-legacy
 )
 
 remove_list=(
