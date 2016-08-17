@@ -3,7 +3,7 @@ set -o nounset
 set -o errexit
 cd "$(dirname "$0/")"
 
-CONFIGS='config files'
+CONFIGS='config_files'
 GRUB_CONFIG='/etc/default/grub'
 NEEDED_PACKAGES=(
     curl
@@ -18,14 +18,18 @@ main() {
     install_needed_packages
     add_repositories_with_curl
     handle_apt_packages
-    disable_quiet_splash_in_grub
+    # disable_quiet_splash_in_grub
+    # TODO: problem with '' not forwarded into suRun
 
     # without sudo
     make_symlinks_to_mounted_devices
     configure_system
 
-#    check_tools_version_and_install_newest
-#    create_swap_file
+    # check_tools_version_and_install_newest
+    # create_swap_file
+
+    # TODO: add echo ${FUNCNAME[0]}
+    # TODO: call one command feature
 }
 
 add_ppa_repositories() {
@@ -60,12 +64,14 @@ disable_quiet_splash_in_grub() {
 configure_system() {
     # Git
     Run cp "$CONFIGS/.git*" ~/
-    Run "echo \"$CONFIGS/.bashrc\" >> ~/.bashrc"
+    Run cat "$CONFIGS/.bashrc >> ~/.bashrc"
     Run git config --global user.email "$GIT_EMAIL"
     Run git config --global user.name "$GIT_NAME"
 
     # Copy ssh keys
+    Run mkdir -p ~/.ssh
     Run cp "$sshDir/*" ~/.ssh/
+    Run cp "~/.ssh/$mainSSHkey" "~/.ssh/id_rsa"
     Run chmod 0600 ~/.ssh/*.ppk
     Run chmod 0600 ~/.ssh/id_rsa
 
@@ -75,7 +81,11 @@ configure_system() {
 make_symlinks_to_mounted_devices() {
     Run shopt -s extglob
     for disk in "$MountPoint/!($USER)"; do
-        Run ln -s "$disk" ~/
+    	if [ "-e ~/$disk" ]; then
+    		Run echo "~/$disk exists."
+    	else
+        	Run ln -s "$disk" ~/
+        fi
     done
 }
 
