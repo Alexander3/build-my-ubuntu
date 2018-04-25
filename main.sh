@@ -2,11 +2,17 @@
 set -o nounset
 set -o errexit
 cd "$(dirname "$0/")"
+set -x
 
 CONFIGS='config_files'
 GRUB_CONFIG='/etc/default/grub'
 NEEDED_PACKAGES=(
     curl
+    apt-transport-https
+    gcc
+    g++
+    make
+    build-essential
 )
 
 source cli.sh
@@ -14,9 +20,10 @@ source cli.sh
 main() {
     source config.sh
 
-    add_ppa_repositories
+    #add_ppa_repositories
     install_needed_packages
-    add_repositories_with_curl
+    #add_repositories_with_curl
+    #add_gpg_keys
     handle_apt_packages
     # disable_quiet_splash_in_grub
     # TODO: problem with '' not forwarded into suRun
@@ -39,21 +46,28 @@ add_ppa_repositories() {
 }
 
 install_needed_packages() {
-    suRun apt-get -y install ${NEEDED_PACKAGES[*]}
+    suRun apt -y install ${NEEDED_PACKAGES[*]}
 }
 
 add_repositories_with_curl() {
-    for link in ${manual_installed_repositories[*]}; do
-        suRun "curl -s $link | sudo bash"
+    for ((i = 0; i < ${#manual_installed_repositories[@]}; i++)); do
+        suRun "curl -sL ${manual_installed_repositories[$i]} | sudo -E bash -"
     done
 }
+
+add_gpg_keys() {
+    for ((i = 0; i < ${#manual_gpg[@]}; i++)); do
+	Run "wget -qO - ${manual_gpg[$i]} | sudo apt-key add -"
+    done
+}
+
 handle_apt_packages() {
-    suRun apt-get -y update
-    suRun apt-get -y upgrade
-    suRun apt-get -y purge ${remove_list[*]}
-    suRun apt-get -y install ${install_list[*]}
-    suRun apt-get -y autoremove --purge
-    suRun apt-get -y autoclean
+    suRun apt -y update
+    suRun apt -y upgrade
+    suRun apt -y purge ${remove_list[*]}
+    suRun apt -y install ${install_list[*]}
+    suRun apt -y autoremove --purge
+    suRun apt -y autoclean
 }
 
 disable_quiet_splash_in_grub() {
@@ -69,11 +83,13 @@ configure_system() {
     Run git config --global user.name "$GIT_NAME"
 
     # Copy ssh keys
-    Run mkdir -p ~/.ssh
-    Run cp "$sshDir/*" ~/.ssh/
-    Run cp "~/.ssh/$mainSSHkey" "~/.ssh/id_rsa"
-    Run chmod 0600 ~/.ssh/*.ppk
-    Run chmod 0600 ~/.ssh/id_rsa
+    if [ -d "$sshDir" ]; then
+      Run mkdir -p ~/.ssh
+      Run cp "$sshDir/*" ~/.ssh/
+      Run cp "~/.ssh/$mainSSHkey" "~/.ssh/id_rsa"
+      Run chmod 0600 ~/.ssh/*.ppk
+      Run chmod 0600 ~/.ssh/id_rsa
+    fi
 
     # TODO modify fstab to mount with your uid and gid
 }

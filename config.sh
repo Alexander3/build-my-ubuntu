@@ -3,8 +3,11 @@ MountPoint='/media'             # Folder where you mounted other drives during i
 sshDir='/media/D/ssh'           # Path to your ssh keys
 mainSSHkey='#$% Key.ppk %$#'    # key that should be set as id_rsa
 
-GIT_NAME='#$% Your name %$#'
-GIT_EMAIL='#$% yourmail@example.com'
+
+echo Your git name:
+read GIT_NAME
+echo Your git email:
+read GIT_EMAIL
 
 # accepts oracle-java8-installer licence, if you don't need it remove this line
 Run 'echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections'
@@ -13,12 +16,18 @@ Run 'echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true
 repositories=(
     ppa:webupd8team/java        # for oracle-java8-installer
     ppa:nilarimogard/webupd8    # for nautilus-columns
-    ppa:webupd8team/sublime-text-3
 )
 
 manual_installed_repositories=(
-    https://packagecloud.io/install/repositories/gyazo/gyazo-for-linux/script.deb.sh
+    https://deb.nodesource.com/setup_10.x
 )
+
+manual_gpg=(
+    https://download.sublimetext.com/sublimehq-pub.gpg
+)
+
+sudo touch /etc/apt/sources.list.d/extra.list
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
 
 install_list=(
     synaptic
@@ -28,22 +37,18 @@ install_list=(
     terminator
     htop
     vim
-    sublime-text-installer
+    sublime-text
     # Python developer
+    python3-dev
     python3-pip
-    ipython3
-    virtualenvwrapper
     # Webdeveloper tools
-    npm
-    nodejs-legacy
-    ruby-sass
+    nodejs
     # Other
-    gyazo
     gimp
     nautilus-image-converter
-    nautilus-columns
+    #nautilus-columns
 )
 
 remove_list=(
-    unity-webapps-common    # Amazon-something by default in Unity desktop
+    ubuntu-web-launchers    # Amazon-something by default in Unity desktop
 )
